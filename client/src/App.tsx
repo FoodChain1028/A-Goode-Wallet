@@ -1,25 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
+import { ThemeProvider } from 'styled-components';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
 import './App.css';
+
+// pages
+import DashboardPage from './pages/DashboardPage';
+import AssetsPage from './pages/AssetsPage';
+import SwapPage from './pages/SwapPage';
+import TransactionsPage from './pages/TransactionsPage';
+import AddressBookPage from './pages/AddressBookPage';
+import AppsPage from './pages/AppsPage';
+import SettingsPage from './pages/SettingsPage';
+import WhatsNewPage from './pages/WhatsNewPage';
+import HelpPage from './pages/HelpPage';
+
+// themes
+import { lightTheme } from './styles/lightTheme';
+import { GlobalStyle } from './styles/globalStyles';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={lightTheme}>
+      <GlobalStyle />
+      <Layout>
+        <Routes> 
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/assets" element={<AssetsPage />} />
+          <Route path="/swap" element={<SwapPage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/address-book" element={<AddressBookPage />} />
+          <Route path="/apps" element={<AppsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/whats-new" element={<WhatsNewPage />} />
+          <Route path="/help" element={<HelpPage />} />
+        </Routes>
+      </Layout>
+    </ThemeProvider>
   );
 }
 
