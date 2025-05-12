@@ -29,19 +29,25 @@ const footerMenuItemsData = [
   { label: "Need help?", icon: ChatBubbleLeftRightIcon, path: '/help' },
 ];
 
+
+// TODO: make the sidebar collapsible
 const SidebarContainer = styled.div`
   background-color: ${props => props.theme.bg};
   color: ${props => props.theme.fg};
   width: 230px;
-  height: 100vh;
+  height: 95vh;
   position: fixed;
-  top: 70px; /* Height of the navbar */
+  top: 60px; /* Height of the navbar */
   left: 0;
   bottom: 0;
   padding: 20px 0;
   overflow-y: auto;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   svg {
     margin-right: 10px;
     width: 20px;
@@ -61,7 +67,7 @@ const ProfileSection = styled.div`
 const Balance = styled.div`
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 15px;
+  // margin-bottom: 1px;
   color: ${props => props.theme.fg};
 `;
 
@@ -79,7 +85,7 @@ const MenuList = styled.ul`
 const MenuItem = styled.li<{ active?: boolean }>`
   padding: 12px 20px;
   display: flex;
-  align-items: centor;
+  align-items: center;
   cursor: pointer;
   color: ${props => props.theme.fg};
   background-color: ${props => props.active ? `${props.theme.primary.DEFAULT}22` : 'transparent'};

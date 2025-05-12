@@ -6,6 +6,8 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     bg: string;
     fg: string;
+    font: string;
+    shadow: string;
     primary: {
       DEFAULT: string;
       hover: string;

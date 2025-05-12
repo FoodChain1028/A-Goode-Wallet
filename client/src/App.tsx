@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
@@ -15,13 +14,20 @@ import SettingsPage from './pages/SettingsPage';
 import WhatsNewPage from './pages/WhatsNewPage';
 import HelpPage from './pages/HelpPage';
 
-// themes
+// styles
 import { lightTheme } from './styles/lightTheme';
+import { darkTheme } from './styles/darkTheme';
 import { GlobalStyle } from './styles/globalStyles';
 
+// hooks
+import { useTheme } from './hooks/useTheme';
+
 function App() {
+  const { themeMode } = useTheme();
+  const currentTheme = themeMode === 'light' ? lightTheme : darkTheme;
+
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={currentTheme}>
       <GlobalStyle />
       <Layout>
         <Routes> 

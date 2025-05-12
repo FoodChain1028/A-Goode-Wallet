@@ -1,1 +1,1 @@
-export { ActionButton, AddressButton } from './Buttons';
+export { ActionButton, AddressButton, SwitchButton } from './Buttons';

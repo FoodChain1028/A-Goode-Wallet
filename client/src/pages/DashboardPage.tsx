@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ActionButton } from '../components/Buttons';
+import { Card, BalanceCard, TransactionsCard } from '../components/Cards';
 
-// Styled Components (originally in App.tsx, specific to DashboardPage or closely related)
 const DashboardContainer = styled.div`
   padding: 20px;
 `;
@@ -11,78 +12,6 @@ const CardContainer = styled.div`
   grid-template-columns: 2fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
-`;
-
-const Card = styled.div`
-  background-color: ${props => props.theme.bg};
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-`;
-
-const BalanceCard = styled(Card)`
-  h2 {
-    margin-top: 0;
-    color: ${props => props.theme.fg};
-    font-size: 16px;
-  }
-  
-  .balance {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 10px 0;
-  }
-  
-  .actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-`;
-
-const ActionButton = styled.button<{ primary?: boolean }>`
-  background-color: ${props => props.primary ? props.theme.primary.DEFAULT : 'transparent'};
-  color: ${props => props.primary ? 'white' : props.theme.primary.DEFAULT};
-  border: ${props => props.primary ? 'none' : `1px solid ${props.theme.primary.DEFAULT}`};
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-weight: 600;
-  
-  &:hover {
-    background-color: ${props => props.primary ? props.theme.primary.hover : props.theme.primary.muted};
-  }
-`;
-
-const TransactionsCard = styled(Card)`
-  grid-column: span 2;
-  
-  h2 {
-    margin-top: 0;
-    color: ${props => props.theme.fg};
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0;
-    
-    svg {
-      margin-bottom: 20px;
-      color: ${props => props.theme.fg};
-      opacity: 0.7;
-    }
-    
-    p {
-      color: ${props => props.theme.fg};
-      opacity: 0.7;
-      text-align: center;
-    }
-  }
 `;
 
 // DashboardPage Component

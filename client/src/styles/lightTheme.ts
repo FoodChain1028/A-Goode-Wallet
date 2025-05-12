@@ -1,6 +1,8 @@
 export const lightTheme = {
     bg: '#FFFFFF',
     fg: '#333333', // dark gray
+    font: 'white',
+    shadow: '0 2px 5px rgba(0,0,0,0.2)',
     primary: {
       DEFAULT: '#555555', 
       hover:   '#353535', 
