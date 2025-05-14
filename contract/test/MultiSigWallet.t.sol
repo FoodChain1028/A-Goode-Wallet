@@ -6,6 +6,7 @@ import "../src/MultiSigWallet.sol";
 import "../src/OwnerManager.sol";
 import "../src/SignatureDecoder.sol";
 import "../src/SafeMath.sol";
+import "./Utils.sol";
 
 // A simple contract to test interactions with MultiSigWallet
 contract Counter {
@@ -60,30 +61,6 @@ contract MultiSigWalletTest is Test {
         vm.deal(address(wallet), 10 ether);
     }
 
-    function _signHash(bytes32 txHash, uint256 privateKey) internal pure returns (bytes memory) {
-        (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, txHash);
-        return abi.encodePacked(r, s, v);
-    }
-
-    function _getSortedSignatures(bytes32 txHash, address[] memory signers, uint256[] memory privateKeys)
-        internal
-        pure
-        returns (bytes memory signatures)
-    {
-        require(signers.length == privateKeys.length, "Mismatch array length");
-        for (uint256 i = 0; i < signers.length; i++) {
-            for (uint256 j = i + 1; j < signers.length; j++) {
-                if (signers[i] > signers[j]) {
-                    (signers[i], signers[j]) = (signers[j], signers[i]);
-                    (privateKeys[i], privateKeys[j]) = (privateKeys[j], privateKeys[i]);
-                }
-            }
-        }
-        for (uint256 i = 0; i < signers.length; i++) {
-            signatures = abi.encodePacked(signatures, _signHash(txHash, privateKeys[i]));
-        }
-    }
-
     function test_ExecTransaction_ValueTransfer_Success() public {
         address recipient = address(0xdead);
         uint256 value = 1 ether;
@@ -98,7 +75,7 @@ contract MultiSigWalletTest is Test {
         uint256[] memory pks = new uint256[](2);
         pks[0] = pk1;
         pks[1] = pk2;
-        bytes memory signatures = _getSortedSignatures(txHash, signers, pks);
+        bytes memory signatures = Utils._getSortedSignatures(txHash, signers, pks, vm);
 
         vm.expectEmit(true, true, true, true, address(wallet));
         emit MultiSigWallet.ExecutionSuccess(txHash);
@@ -125,7 +102,7 @@ contract MultiSigWalletTest is Test {
         uint256[] memory pks = new uint256[](2);
         pks[0] = pk1;
         pks[1] = pk3;
-        bytes memory signatures = _getSortedSignatures(txHash, signers, pks);
+        bytes memory signatures = Utils._getSortedSignatures(txHash, signers, pks, vm);
 
         vm.expectEmit(true, true, false, false, address(wallet));
         emit MultiSigWallet.ExecutionSuccess(txHash);
@@ -150,7 +127,7 @@ contract MultiSigWalletTest is Test {
         signers[0] = owner1;
         uint256[] memory pks = new uint256[](1);
         pks[0] = pk1;
-        bytes memory signatures = _getSortedSignatures(txHash, signers, pks);
+        bytes memory signatures = Utils._getSortedSignatures(txHash, signers, pks, vm);
 
         vm.expectRevert("not enough signatures");
         wallet.execTransaction(recipient, value, data, signatures);
@@ -189,7 +166,7 @@ contract MultiSigWalletTest is Test {
         uint256[] memory pks = new uint256[](2);
         pks[0] = pk1;
         pks[1] = pk2;
-        bytes memory signatures = _getSortedSignatures(txHash, signers, pks);
+        bytes memory signatures = Utils._getSortedSignatures(txHash, signers, pks, vm);
 
         wallet.execTransaction(recipient, value, data, signatures);
         assertEq(wallet.nonce(), nonce + 1);
@@ -211,7 +188,7 @@ contract MultiSigWalletTest is Test {
         uint256[] memory pks = new uint256[](2);
         pks[0] = pk1;
         pks[1] = pk2;
-        bytes memory signaturesWrong = _getSortedSignatures(txHashWrong, signers, pks);
+        bytes memory signaturesWrong = Utils._getSortedSignatures(txHashWrong, signers, pks, vm);
 
         vm.expectRevert("signer not in owners || invalid signature");
         wallet.execTransaction(recipient, value, data, signaturesWrong);
@@ -230,7 +207,7 @@ contract MultiSigWalletTest is Test {
         uint256[] memory pks = new uint256[](2);
         pks[0] = pk1;
         pks[1] = nonOwnerPk;
-        bytes memory signatures = _getSortedSignatures(txHash, signers, pks);
+        bytes memory signatures = Utils._getSortedSignatures(txHash, signers, pks, vm);
 
         vm.expectRevert("signer not in owners || invalid signature");
         wallet.execTransaction(recipient, value, data, signatures);
@@ -251,7 +228,7 @@ contract MultiSigWalletTest is Test {
         uint256[] memory pks = new uint256[](2);
         pks[0] = pk1;
         pks[1] = pk2;
-        bytes memory signatures = _getSortedSignatures(txHash, signers, pks);
+        bytes memory signatures = Utils._getSortedSignatures(txHash, signers, pks, vm);
 
         vm.expectEmit(true, true, false, true, address(wallet));
         emit MultiSigWallet.ExecutionFailure(txHash, abi.encodeWithSignature("Error(string)", "Target reverted"));
