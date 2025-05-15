@@ -1,6 +1,6 @@
-import React from 'react';
-import PlaceholderPage from './PlaceholderPage';
+import React from 'react'
+import PlaceholderPage from './PlaceholderPage'
 
-const AddressBookPage = () => <PlaceholderPage title="Address Book" />;
+const AddressBookPage = () => <PlaceholderPage title="Address Book" />
 
-export default AddressBookPage;
+export default AddressBookPage

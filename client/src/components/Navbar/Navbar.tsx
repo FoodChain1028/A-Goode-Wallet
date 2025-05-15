@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { SwitchButton } from '../Buttons';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import { useTheme } from '../../hooks/useTheme';
+import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import { SwitchButton } from '../Buttons'
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline'
+import { useTheme } from '../../hooks/useTheme'
 
 // to remove the default underline of the link
 const StyledLogoLink = styled(Link)`
@@ -11,18 +11,18 @@ const StyledLogoLink = styled(Link)`
   color: inherit;
   display: flex;
   align-items: center;
-`;
+`
 
 const Logo = styled.div`
   font-weight: 700;
   display: flex;
   align-items: center;
-  
+
   img {
     height: 40px;
     margin-right: 2.5px;
   }
-`;
+`
 
 const LogoText = styled.span`
   color: ${props => props.theme.fg};
@@ -34,8 +34,7 @@ const LogoText = styled.span`
   font-size: 18px;
   line-height: 17px;
   height: 50px;
-`;
-
+`
 
 const NavbarContainer = styled.div`
   display: flex;
@@ -51,13 +50,13 @@ const NavbarContainer = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-`;
+`
 
 const NavActions = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
-`;
+`
 
 const WalletInfo = styled.div`
   display: flex;
@@ -66,11 +65,11 @@ const WalletInfo = styled.div`
   border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
-  
+
   &:hover {
     background-color: ${props => props.theme.primary.active};
   }
-`;
+`
 
 const Avatar = styled.div`
   width: 32px;
@@ -81,19 +80,18 @@ const Avatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
   }
-`;
+`
 
 const Navbar: React.FC = () => {
+  const { themeMode, toggleTheme } = useTheme()
 
-  const { themeMode, toggleTheme } = useTheme();
-  
   return (
     <NavbarContainer>
       <StyledLogoLink to="/">
@@ -107,17 +105,15 @@ const Navbar: React.FC = () => {
       </StyledLogoLink>
       <NavActions>
         <SwitchButton onClick={toggleTheme}>
-          {themeMode === 'light' ? <MoonIcon/> : <SunIcon/>}
+          {themeMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </SwitchButton>
         <WalletInfo>
           200.47778 ETH
-          <Avatar>
-            {/* Avatar content */}
-          </Avatar>
+          <Avatar>{/* Avatar content */}</Avatar>
         </WalletInfo>
       </NavActions>
     </NavbarContainer>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

@@ -1,6 +1,6 @@
-import React from 'react';
-import PlaceholderPage from './PlaceholderPage';
+import React from 'react'
+import PlaceholderPage from './PlaceholderPage'
 
-const WhatsNewPage = () => <PlaceholderPage title="What's New" />;
+const WhatsNewPage = () => <PlaceholderPage title="What's New" />
 
-export default WhatsNewPage;
+export default WhatsNewPage

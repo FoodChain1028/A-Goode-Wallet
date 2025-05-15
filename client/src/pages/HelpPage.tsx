@@ -1,6 +1,6 @@
-import React from 'react';
-import PlaceholderPage from './PlaceholderPage';
+import React from 'react'
+import PlaceholderPage from './PlaceholderPage'
 
-const HelpPage = () => <PlaceholderPage title="Help" />;
+const HelpPage = () => <PlaceholderPage title="Help" />
 
-export default HelpPage;
+export default HelpPage

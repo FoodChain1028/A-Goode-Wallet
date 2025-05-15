@@ -1,8 +1,8 @@
-import { styled } from 'styled-components';
-import React from 'react';
+import { styled } from 'styled-components'
+import React from 'react'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const BasicButton = styled.button`
@@ -19,20 +19,21 @@ const BasicButton = styled.button`
   box-sizing: border-box;
 
   &:hover {
-    background-color: ${props => props.theme.primary.hover}
+    background-color: ${props => props.theme.primary.hover};
   }
-`;
+`
 
 const ActionButtonComp = styled(BasicButton)<{ primary?: boolean }>`
-  background-color: ${props => props.primary ? props.theme.primary.DEFAULT : 'transparent'};
-  color: ${props => props.primary ? 'white' : props.theme.primary.DEFAULT};
-  border: ${props => props.primary ? 'none' : `1px solid ${props.theme.primary.DEFAULT}`};
+  background-color: ${props => (props.primary ? props.theme.primary.DEFAULT : 'transparent')};
+  color: ${props => (props.primary ? 'white' : props.theme.primary.DEFAULT)};
+  border: ${props => (props.primary ? 'none' : `1px solid ${props.theme.primary.DEFAULT}`)};
 
   &:hover {
-    background-color: ${props => props.primary ? props.theme.primary.hover : props.theme.primary.active};
+    background-color: ${props =>
+      props.primary ? props.theme.primary.hover : props.theme.primary.active};
     color: white;
   }
-`;
+`
 
 const AddressButtonComp = styled(BasicButton)`
   background-color: ${props => props.theme.primary.hover};
@@ -41,7 +42,7 @@ const AddressButtonComp = styled(BasicButton)`
   &:hover {
     background-color: ${props => props.theme.primary.active};
   }
-`;
+`
 
 const SwitchButtonComp = styled.button`
   background-color: ${props => props.theme.primary.active};
@@ -53,18 +54,26 @@ const SwitchButtonComp = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 
-const ActionButton: React.FC<ButtonProps & { primary?: boolean }> = ({ primary, children, ...rest }) => {
-  return <ActionButtonComp primary={primary} {...rest}>{children}</ActionButtonComp>;
-};
-
-const AddressButton: React.FC<ButtonProps> = ({ children, ...rest}) => {
-  return <AddressButtonComp {...rest}>{children}</AddressButtonComp>;
+const ActionButton: React.FC<ButtonProps & { primary?: boolean }> = ({
+  primary,
+  children,
+  ...rest
+}) => {
+  return (
+    <ActionButtonComp primary={primary} {...rest}>
+      {children}
+    </ActionButtonComp>
+  )
 }
 
-const SwitchButton: React.FC<ButtonProps> = ({ children, ...rest}) => {
-  return <SwitchButtonComp {...rest}>{children}</SwitchButtonComp>;
+const AddressButton: React.FC<ButtonProps> = ({ children, ...rest }) => {
+  return <AddressButtonComp {...rest}>{children}</AddressButtonComp>
 }
 
-export { ActionButton, AddressButton, SwitchButton };
+const SwitchButton: React.FC<ButtonProps> = ({ children, ...rest }) => {
+  return <SwitchButtonComp {...rest}>{children}</SwitchButtonComp>
+}
+
+export { ActionButton, AddressButton, SwitchButton }

@@ -1,6 +1,6 @@
-import React from 'react';
-import PlaceholderPage from './PlaceholderPage';
+import React from 'react'
+import PlaceholderPage from './PlaceholderPage'
 
-const SettingsPage = () => <PlaceholderPage title="Settings" />;
+const SettingsPage = () => <PlaceholderPage title="Settings" />
 
-export default SettingsPage;
+export default SettingsPage

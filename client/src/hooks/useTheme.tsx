@@ -1,3 +1,3 @@
-import { useThemeContext } from "../contexts/themeContext";
+import { useThemeContext } from '../contexts/themeContext'
 
-export const useTheme = useThemeContext;
+export const useTheme = useThemeContext

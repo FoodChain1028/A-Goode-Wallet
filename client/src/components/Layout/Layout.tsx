@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
-import Navbar from '../Navbar/Navbar';
-import Sidebar from '../Sidebar/Sidebar';
+import React, { ReactNode } from 'react'
+import styled from 'styled-components'
+import Navbar from '../Navbar/Navbar'
+import Sidebar from '../Sidebar/Sidebar'
 
 interface LayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const LayoutContainer = styled.div`
@@ -12,7 +12,7 @@ const LayoutContainer = styled.div`
   min-height: 100vh;
   background-color: ${props => props.theme.bg};
   color: ${props => props.theme.fg};
-`;
+`
 
 const ContentArea = styled.div`
   flex: 1;
@@ -20,18 +20,16 @@ const ContentArea = styled.div`
   margin-top: 70px; /* Height of the navbar */
   padding: 20px;
   overflow-y: auto;
-`;
+`
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <LayoutContainer>
       <Navbar />
       <Sidebar />
-      <ContentArea>
-        {children}
-      </ContentArea>
+      <ContentArea>{children}</ContentArea>
     </LayoutContainer>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
