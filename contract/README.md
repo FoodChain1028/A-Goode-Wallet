@@ -64,3 +64,8 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+### Deployed Contracts
+
+- ProxyFactory: `0xfe569999314D807B4D2A07272fd557Ca1E66Af39`
+- MultiSigWallet: `0x567Da28832c318Ba1B1a12c841f7B8b46513bde2`
