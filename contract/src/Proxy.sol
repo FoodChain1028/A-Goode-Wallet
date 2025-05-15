@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.13;
 
 // This is a generic proxy contract that allows to execute arbitrary code
 abstract contract Proxy {
