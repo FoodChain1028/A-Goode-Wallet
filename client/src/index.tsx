@@ -5,6 +5,7 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from './contexts/themeContext'
+import { ThirdwebProvider } from 'thirdweb/react'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
@@ -12,7 +13,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <App />
+        <ThirdwebProvider>
+          <App />
+        </ThirdwebProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
