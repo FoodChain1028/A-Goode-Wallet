@@ -3,23 +3,33 @@ import styled from 'styled-components'
 import { Link, useLocation } from 'react-router-dom'
 import {
   HomeIcon,
-  CircleStackIcon,
-  ArrowPathIcon,
-  DocumentTextIcon,
+  WalletIcon,
+  ArrowsRightLeftIcon,
+  ClockIcon,
   BookOpenIcon,
   Squares2X2Icon,
   Cog6ToothIcon,
   InformationCircleIcon,
   ChatBubbleLeftRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PlusIcon,
 } from '@heroicons/react/24/outline'
 import { ActionButton, AddressButton } from '../Buttons'
+import { useWalletContext } from '../../contexts/walletContext'
+import { MenuList, MenuItem } from './menu'
+import { ProfileSection, Balance } from './profile'
+import { FooterSection } from './footer'
+
+// collapse context
+import { useCollapseContext } from '../../contexts/collapseContext'
 
 const menuItemsData = [
   { label: 'Home', icon: HomeIcon, path: '/' },
-  { label: 'Assets', icon: CircleStackIcon, path: '/assets' },
-  { label: 'Swap', icon: ArrowPathIcon, path: '/swap' },
-  { label: 'Transactions', icon: DocumentTextIcon, path: '/transactions' },
-  { label: 'Address book', icon: BookOpenIcon, path: '/address-book' },
+  { label: 'Assets', icon: WalletIcon, path: '/assets' },
+  { label: 'Swap', icon: ArrowsRightLeftIcon, path: '/swap' },
+  { label: 'Transactions', icon: ClockIcon, path: '/transactions' },
+  { label: 'Address Book', icon: BookOpenIcon, path: '/address-book' },
   { label: 'Apps', icon: Squares2X2Icon, path: '/apps' },
   { label: 'Settings', icon: Cog6ToothIcon, path: '/settings' },
 ]
@@ -29,11 +39,10 @@ const footerMenuItemsData = [
   { label: 'Need help?', icon: ChatBubbleLeftRightIcon, path: '/help' },
 ]
 
-// TODO: make the sidebar collapsible
-const SidebarContainer = styled.div`
+const SidebarContainer = styled.div<{ collapsed: boolean }>`
   background-color: ${props => props.theme.bg};
   color: ${props => props.theme.fg};
-  width: 230px;
+  width: ${props => (props.collapsed ? '70px' : '230px')};
   height: 95vh;
   position: fixed;
   top: 60px; /* Height of the navbar */
@@ -42,74 +51,58 @@ const SidebarContainer = styled.div`
   padding: 20px 0;
   overflow-y: auto;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   svg {
-    margin-right: 10px;
+    margin-right: ${props => (props.collapsed ? '0' : '10px')};
     width: 20px;
     height: 20px;
   }
-`
-
-const ProfileSection = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 1px solid ${props => props.theme.fg}33;
-  margin-bottom: 10px;
-`
-
-const Balance = styled.div`
-  font-size: 18px;
-  font-weight: bold;
-  // margin-bottom: 1px;
-  color: ${props => props.theme.fg};
-`
-
-const MenuList = styled.ul`
-  list-style: none;
-  /* set to default 
-      browser default includes a
-      padding-left (for indent)
-      and margin-top and margin-bottom.
-  */
-  padding: 0;
-  margin: 0;
-`
-
-const MenuItem = styled.li<{ active?: boolean }>`
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: ${props => props.theme.fg};
-  background-color: ${props => (props.active ? `${props.theme.primary.DEFAULT}22` : 'transparent')};
-  border-left: ${props =>
-    props.active ? `4px solid ${props.theme.primary.DEFAULT}` : '4px solid transparent'};
-
-  &:hover {
-    background-color: ${props => `${props.theme.primary.DEFAULT}11`};
-  }
-`
-
-const FooterSection = styled.div`
-  padding: 15px;
-  margin-top: auto;
-  border-top: 1px solid ${props => props.theme.fg}33;
-  font-size: 14px;
 `
 
 const trimWalletAddress = (address: string) => {
   return `${address.slice(0, 6)}...${address.slice(-3)}`
 }
 
+const CollapseButton = styled.button<{ collapsed?: boolean }>`
+  position: absolute !important;
+  z-index: 2;
+  color: ${props => props.theme.fg};
+  padding: 8px 0;
+  right: 0;
+  transform: translateX(50%);
+  margin-top: 141.5px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  cursor: pointer;
+  background-color: ${props => props.theme.bg};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background-color: ${props => props.theme.primary.DEFAULT};
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    margin-right: 15px;
+  }
+`
+
 const Sidebar: React.FC = () => {
   const location = useLocation()
   const [activePath, setActivePath] = useState(location.pathname)
+  const { collapsed, toggleCollapse } = useCollapseContext()
+  const { walletAddrs } = useWalletContext()
 
   useEffect(() => {
     setActivePath(location.pathname)
@@ -119,48 +112,68 @@ const Sidebar: React.FC = () => {
   // TODO: or maybe add a popup to: (1) copy (2) show qrcode
   const handleCopyAddress = () => {
     // navigator.clipboard.writeText()
-    console.log('Copy address button clicked!')
   }
 
   // TODO: implement new transaction function
-  const handleNewTransactionClick = () => {
-    console.log('New transaction button clicked!')
-  }
+  const handleNewTransactionClick = () => {}
 
   return (
-    <SidebarContainer>
-      <ProfileSection>
-        <AddressButton onClick={handleCopyAddress}>
-          {/* TODO: This should be replaced by the contract account address*/}
-          {trimWalletAddress('0x05d13119e1ed67aA0E54fe7E832e0F4Ba1F34AFe')}
-        </AddressButton>
-        <Balance>$0</Balance>
-        <ActionButton onClick={handleNewTransactionClick}>New transaction</ActionButton>
-      </ProfileSection>
+    <SidebarContainer collapsed={collapsed}>
+      <CollapseButton onClick={toggleCollapse} collapsed={collapsed}>
+        {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+      </CollapseButton>
+      {!(walletAddrs && walletAddrs.length > 0) ? (
+        <>
+          <ProfileSection collapsed={collapsed}>
+            {!collapsed && (
+              <AddressButton onClick={handleCopyAddress}>
+                {trimWalletAddress('0x1234567890123456789012345678901234567890')}
+              </AddressButton>
+            )}
+            {!collapsed && <Balance>$0</Balance>}
+            {!collapsed ? (
+              <ActionButton onClick={handleNewTransactionClick}>New transaction</ActionButton>
+            ) : (
+              <ActionButton onClick={handleNewTransactionClick}>
+                <PlusIcon />
+              </ActionButton>
+            )}
+          </ProfileSection>
+          <MenuList>
+            {menuItemsData.map(item => (
+              <Link
+                to={item.path}
+                key={item.label}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <MenuItem active={activePath === item.path} collapsed={collapsed}>
+                  <item.icon /> {!collapsed && item.label}
+                </MenuItem>
+              </Link>
+            ))}
+          </MenuList>
+        </>
+      ) : (
+        <ProfileSection collapsed={collapsed}>
+          {!collapsed ? (
+            <ActionButton onClick={handleNewTransactionClick}>Create</ActionButton>
+          ) : (
+            <ActionButton onClick={handleNewTransactionClick}>
+              <PlusIcon />
+            </ActionButton>
+          )}
+        </ProfileSection>
+      )}
 
-      <MenuList>
-        {menuItemsData.map(item => (
-          <Link
-            to={item.path}
-            key={item.label}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <MenuItem active={activePath === item.path}>
-              <item.icon /> {item.label}
-            </MenuItem>
-          </Link>
-        ))}
-      </MenuList>
-
-      <FooterSection>
+      <FooterSection collapsed={collapsed}>
         {footerMenuItemsData.map(item => (
           <Link
             to={item.path}
             key={item.label}
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <MenuItem active={activePath === item.path}>
-              <item.icon /> {item.label}
+            <MenuItem active={activePath === item.path} collapsed={collapsed}>
+              <item.icon /> {!collapsed && item.label}
             </MenuItem>
           </Link>
         ))}

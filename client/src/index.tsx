@@ -6,6 +6,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from './contexts/themeContext'
 import { ThirdwebProvider } from 'thirdweb/react'
+import { WalletProvider } from './contexts/walletContext'
+import { CollapseProvider } from './contexts/collapseContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
@@ -14,7 +16,11 @@ root.render(
     <BrowserRouter>
       <ThemeProvider>
         <ThirdwebProvider>
-          <App />
+          <CollapseProvider>
+            <WalletProvider>
+              <App />
+            </WalletProvider>
+          </CollapseProvider>
         </ThirdwebProvider>
       </ThemeProvider>
     </BrowserRouter>
