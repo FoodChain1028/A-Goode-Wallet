@@ -13,7 +13,7 @@ import AppsPage from './pages/AppsPage'
 import SettingsPage from './pages/SettingsPage'
 import WhatsNewPage from './pages/WhatsNewPage'
 import HelpPage from './pages/HelpPage'
-import CreateWallet from './pages/CreateWallet'
+import CreateWalletPage from './pages/CreateWalletPage'
 
 // styles
 import { lightTheme } from './styles/lightTheme'
@@ -33,7 +33,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/create" element={<CreateWallet />} />
+          <Route path="/create" element={<CreateWalletPage />} />
           <Route path="/assets" element={<AssetsPage />} />
           <Route path="/swap" element={<SwapPage />} />
           <Route path="/transactions" element={<TransactionsPage />} />
